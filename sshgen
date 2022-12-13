@@ -1,0 +1,60 @@
+#!/bin/bash
+HOMEDIR=~
+# Функция подтверждения
+confirm() {
+    read -r -p "${1:-Are you sure? [y/N]} " response
+    case "$response" in
+        [yY][eE][sS]|[yY]) 
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+# Тело скрипта
+# Проверка существования ssh
+if [ ! -d "$HOMEDIR/.ssh" ]; then 
+  sudo apt install -y ssh
+fi
+# Проверка существования конфигурации
+if [ ! -f "$HOMEDIR/.ssh/config" ]; then 
+  touch "$HOMEDIR/.ssh/config"
+fi
+# Основной цикл скрипта
+while :
+do
+  if confirm "Add another configuration? (y/n or enter for no)"; then
+    # Получаем данные от пользователя
+    read -p "Enter a name for the configuration: " HOST_NAME
+    read -p "Enter the ssh username: " HOST_USER
+    read -p "Enter the <IPv4> server address: " HOST_ADDR
+    read -p "Enter the server port for ssh: " HOST_PORT
+    # Создаём директорию конфигурации
+    mkdir "$HOMEDIR/.ssh/$HOST_NAME"
+    # cd "$HOMEDIR/.ssh/$HOST_NAME"
+    # Генерируем связку ключей ssh
+    ssh-keygen -t rsa -b 4096 -f \
+    $HOMEDIR/.ssh/$HOST_NAME/id_rsa
+    # Экспортируем публичный ключ на сервер
+    ssh-copy-id -i $HOMEDIR/.ssh/$HOST_NAME/id_rsa.pub \
+    "-p $HOST_PORT $HOST_USER@$HOST_ADDR"
+    # Добавляем данные в файл конфигурации
+    echo "Host $HOST_NAME" >> "$HOMEDIR/.ssh/config"
+    echo "  HostName $HOST_ADDR" >> "$HOMEDIR/.ssh/config"
+    echo "  User $HOST_USER" >> "$HOMEDIR/.ssh/config"
+    echo "  Port $HOST_PORT" >> "$HOMEDIR/.ssh/config"
+    echo "  IdentityFile ~/.ssh/$HOST_NAME/id_rsa" \
+    >> "$HOMEDIR/.ssh/config"
+    # Создаём алиас для быстрого доступа
+    if confirm "Create an alias for quick access? (y/n or enter for no)"; then
+      read -p "Enter an alias for quick access (CAPS!): " HOST_ALIAS
+      echo "export $HOST_ALIAS='ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT'" \
+      >> "$HOMEDIR/.bashrc"
+    fi
+    echo "Remote host $HOST_ADDR added!"
+    cat "$HOMEDIR/.ssh/$HOST_NAME/id_rsa.pub"
+  else
+    break
+  fi
+done
