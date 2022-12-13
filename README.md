@@ -20,6 +20,14 @@ git clone https://github.com/codesshaman/ssh_config_script.git
 
 ``sshgen``
 
+### Command for connect:
+
+``ssh <your configuration name>``
+
+for example:
+
+``ssh servername``
+
 # Note
 
 If ssh-copy-id not work or you not can login without password, use this commands **ON THE SERVER:**
@@ -55,6 +63,14 @@ rm sshgen && mv sshgen_rus sshgen && chmod +x sshgen
 ### Команда для запуска:
 
 ``sshgen``
+
+### Команда для подключения:
+
+``ssh <имя конфигурации>``
+
+например:
+
+``ssh servername``
 
 # Примечание
 
