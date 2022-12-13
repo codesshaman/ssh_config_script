@@ -32,25 +32,24 @@ do
     read -p "Введите порт сервера для ssh: " HOST_PORT
     # Создаём директорию конфигурации
     mkdir "$HOMEDIR/.ssh/$HOST_NAME"
-    # cd "$HOMEDIR/.ssh/$HOST_NAME"
     # Генерируем связку ключей ssh
     ssh-keygen -t rsa -b 4096 -f \
     $HOMEDIR/.ssh/$HOST_NAME/id_rsa
     # Экспортируем публичный ключ на сервер
     ssh-copy-id -i $HOMEDIR/.ssh/$HOST_NAME/id_rsa.pub \
-    "-p $HOST_PORT $HOST_USER@$HOST_ADDR"
+    -p $HOST_PORT $HOST_USER@$HOST_ADDR
     # Добавляем данные в файл конфигурации
     echo "Host $HOST_NAME" >> "$HOMEDIR/.ssh/config"
     echo "  HostName $HOST_ADDR" >> "$HOMEDIR/.ssh/config"
     echo "  User $HOST_USER" >> "$HOMEDIR/.ssh/config"
     echo "  Port $HOST_PORT" >> "$HOMEDIR/.ssh/config"
-    echo "  IdentityFile ~/.ssh/$HOST_NAME/id_rsa" \
-    >> "$HOMEDIR/.ssh/config"
+    echo "  IdentityFile ~/.ssh/$HOST_NAME/id_rsa" >> "$HOMEDIR/.ssh/config"
     # Создаём алиас для быстрого доступа
     if confirm "Создать алиас для быстрого доступа? (y/n or enter for no)"; then
       read -p "Введите алиас для быстрого доступа (CAPS!): " HOST_ALIAS
       echo "export $HOST_ALIAS='ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT'" \
       >> "$HOMEDIR/.bashrc"
+      export $HOST_ALIAS="ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT"
     fi
     echo "Добавлен удалённый хост $HOST_ADDR!"
     cat "$HOMEDIR/.ssh/$HOST_NAME/id_rsa.pub"
