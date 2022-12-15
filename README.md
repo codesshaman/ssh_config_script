@@ -7,18 +7,18 @@ This script automaticly create ssh configuration for connection to many local/re
 ### Installing:
 
 ```
-git clone https://github.com/codesshaman/ssh_config_script.git
+git clone https://github.com/codesshaman/sshjet.git
 ```
 
-``cd ssh_config_script``
+``cd sshjet``
 
-``chmod +x sshgen``
+``chmod +x sshjet``
 
-``sudo cp sshgen /usr/local/bin``
+``sudo cp sshjet /usr/local/bin``
 
 ### Command for runing:
 
-``sshgen``
+``sshjet``
 
 ### Command for connect:
 
@@ -49,20 +49,20 @@ chmod 600 /home/$USER/.ssh/authorized_keys
 ### Установка:
 
 ```
-git clone https://github.com/codesshaman/ssh_config_script.git
+git clone https://github.com/codesshaman/sshjet.git
 ```
 
-``cd ssh_config_script``
+``cd sshjet``
 
 ```
-rm sshgen && mv sshgen_rus sshgen && chmod +x sshgen
+rm sshjet && mv sshjet_rus sshjet && chmod +x sshjet
 ```
 
-``sudo cp sshgen /usr/local/bin``
+``sudo cp sshjet /usr/local/bin``
 
 ### Команда для запуска:
 
-``sshgen``
+``sshjet``
 
 ### Команда для подключения:
 
