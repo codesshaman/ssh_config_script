@@ -20,6 +20,8 @@ git clone https://github.com/codesshaman/sshjet.git
 
 ``sshjet``
 
+![sshjet_installing](sshjet-install.gif)
+
 ### Command for connect:
 
 ``ssh <your configuration name>``
