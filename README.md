@@ -1,3 +1,8 @@
++ [English](https://github.com/codesshaman/sshjet/#English "English")
++ [Русский](https://github.com/codesshaman/sshjet/#Russian "Русский")
+
+### English
+
 ### Description
 
 This script automaticly create ssh configuration for connection to many local/remote servers
@@ -41,6 +46,8 @@ chmod 600 /home/$USER/.ssh/authorized_keys
 ```
 
 ***
+
+### Russian
 
 ### Описание
 
