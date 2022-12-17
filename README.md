@@ -25,7 +25,7 @@ git clone https://github.com/codesshaman/sshjet.git
 
 ``sshjet``
 
-![sshjet_installing](sshjet-install.gif)
+![sshjet_installing](sshjet_install.gif)
 
 ### Command for connect to server after settings:
 
@@ -72,6 +72,8 @@ rm sshjet && mv sshjet_rus sshjet && chmod +x sshjet
 ### Команда для запуска:
 
 ``sshjet``
+
+![sshjet_installing](sshjet_rus_install.gif)
 
 ### Команда для подключения к серверу после настройки:
 
