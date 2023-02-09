@@ -17,7 +17,7 @@ git clone https://github.com/codesshaman/sshjet.git
 
 ``cd sshjet``
 
-``chmod +x sshjet``
+``chmod a+x sshjet``
 
 ``sudo cp sshjet /usr/local/bin``
 
@@ -64,7 +64,7 @@ git clone https://github.com/codesshaman/sshjet.git
 ``cd sshjet``
 
 ```
-rm sshjet && mv sshjet_rus sshjet && chmod +x sshjet
+rm sshjet && mv sshjet_rus sshjet && chmod a+x sshjet
 ```
 
 ``sudo cp sshjet /usr/local/bin``
