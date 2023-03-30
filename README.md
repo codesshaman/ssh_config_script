@@ -5,7 +5,9 @@
 
 ### Description
 
-This script automaticly create ssh configuration for connection to many local/remote servers
+SSHJet V2 with ansible host support. Script automaticly create ssh connection to the webserver and configure ansible hosts file if ansible exist in system.
+
+For ssc connections script use .ssh/config file, for ansible script use .ansible/hosts.txt file.
 
 # Usage
 
@@ -51,7 +53,9 @@ chmod 600 /home/$USER/.ssh/authorized_keys
 
 ### Описание
 
-Данный скрипт автоматически создаёт конфигурацию ssh для подключения ко множеству локальных/удалённых серверов
+SSHJet V2 с поддержкой хостов ansible. Данный скрипт автоматически создаёт конфигурацию ssh для подключения ко множеству локальных/удалённых серверов по ssh используя .ssh/config файл, а так же добавляет информацию из этого файла в hosts-файл ansible в случае, если ansible установлен в системе.
+
+В качестве hosts-файла ansible по умолчанию используется .ansible/hosts.txt.
 
 # Использование
 

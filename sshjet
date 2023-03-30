@@ -1,5 +1,15 @@
 #!/bin/bash
 HOMEDIR=~
+ANSIBLE=false
+SPACE=" "
+PORT="ansible_port="
+HOST="ansible_host="
+USER="ansible_user="
+KEY="ansible_ssh_private_key_file=${HOME}/.ssh/"
+RSA="/id_rsa"
+STRING=" "
+LEFT="["
+RIGHT="]"
 # Функция подтверждения
 confirm() {
     read -r -p "${1:-Are you sure? [y/N]} " response
@@ -21,10 +31,26 @@ fi
 if [ ! -f "$HOMEDIR/.ssh/config" ]; then 
   touch "$HOMEDIR/.ssh/config"
 fi
-# Основной цикл скрипта
+# Проверка существования ansible
+if [ -d "$HOMEDIR/.ansible/" ]; then 
+  ANSIBLE=true
+fi
+# Функция создания алиаса для быстрого доступа
+create_alias(){
+  if confirm "Create an alias for quick access? (y/n or enter for no)"; then
+    read -p "Enter an alias (CAPS!): " HOST_ALIAS
+    echo "export $HOST_ALIAS='ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT'" \
+    >> "$HOMEDIR/.bashrc"
+    export $HOST_ALIAS="ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT"
+  fi
+}
+########################
+# Основной цикл скрипта#
+########################
 while :
 do
   if confirm "Add another configuration? (y/n or enter for no)"; then
+    STRING=$SPACE
     # Получаем данные от пользователя
     read -p "Enter a name for the configuration: " HOST_NAME
     read -p "Enter the ssh username: " HOST_USER
@@ -45,14 +71,16 @@ do
     echo "  Port $HOST_PORT" >> "$HOMEDIR/.ssh/config"
     echo "  IdentityFile ~/.ssh/$HOST_NAME/id_rsa" >> "$HOMEDIR/.ssh/config"
     # Создаём алиас для быстрого доступа
-    if confirm "Create an alias for quick access? (y/n or enter for no)"; then
-      read -p "Enter an alias (CAPS!): " HOST_ALIAS
-      echo "export $HOST_ALIAS='ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT'" \
-      >> "$HOMEDIR/.bashrc"
-      export $HOST_ALIAS="ssh $HOST_USER@$HOST_ADDR -p $HOST_PORT"
-    fi
+    create_alias
     echo "Remote host $HOST_ADDR added!"
     cat "$HOMEDIR/.ssh/$HOST_NAME/id_rsa.pub"
+    STRING=$HOST_NAME$SPACE$PORT$HOST_PORT$SPACE$HOST$HOST_ADDR$SPACE$USER$HOST_USER$SPACE$KEY$HOST_NAME$RSA
+    if [ ANSIBLE=true ]; then
+      echo "Connect to ansible host"
+      echo $LEFT$HOST_NAME$RIGHT >> ~/.ansible/hosts.txt
+      echo $STRING >> ~/.ansible/hosts.txt
+      ansible -i ~/.ansible/hosts.txt $HOST_NAME -m ping
+    fi
   else
     break
   fi
